@@ -1,0 +1,126 @@
+
+header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-bottom: 2px solid gray;
+  padding: 1em;
+  margin: 1em auto;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+   font-size: large;
+}
+
+.menu {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  gap: 2em;
+}
+
+.login {
+  display: flex;
+  gap: 1em;
+}
+.welcome {
+  color: blue;
+}
+.navlink {
+  text-decoration: none;  
+  color: black;
+}
+
+.navlink.active {
+  font-weight: bold;     
+  color: blue;
+}
+
+/* books page*/
+.books {
+  margin: 2em;
+}
+.books-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 1em;
+}
+
+.books-each {
+  border: 2px solid gray;
+  text-align: center;
+  width: 20em;
+  padding: 2em;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  transition: box-shadow 0.3s ease;
+}
+
+.books-each:hover {
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); 
+  transform: translateY(-5px); 
+}
+/* book detail page */
+.book-detail {
+   display: flex;
+   flex-direction: column;
+   margin: 2em;
+}
+
+.borrower {
+  display: none;
+}
+
+
+/* manage page */
+.add-new {
+  margin: 2em;
+}
+.add-book {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+
+  input {
+    height: 2em;
+    width: 40em;
+    border-radius: 5px;
+  }
+}
+
+.add-btn, .login-btn, .register-btn, .borrow-btn {
+  width: 10em;
+  height: 3em;
+  border-radius: 8px;
+  background-color: rgb(40, 137, 228);
+  border: 1px solid rgb(40, 137, 228);
+  color: white;
+  cursor: pointer;
+}
+
+/* login page */
+.login-page, .register-page {
+    margin: 2em;
+}
+
+.login-form, .register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  input {
+    width: 30em;
+    height: 2em;
+  }
+}
+
+.no-account {
+  color: blue;
+  text-decoration: none;
+  font-size: large;
+}
+
+.notification {
+  color: red;
+}
+
