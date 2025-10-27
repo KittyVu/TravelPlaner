@@ -1,73 +1,25 @@
 import { useState } from 'react';
-import TripPlan from '../components/TripPlan';
-import { useMyContext } from "../context/AppContext";
-import LoadingSpinner from '../components/Loading';
+import TripPLaner from '../components/TripPlaner';
+import Chat from '../components/Chat';
 
 export default function Home() {
-  const [city, setCity] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [plan, setPlan] = useState(null);
-  const [plancity, setPlancity] = useState('');
-  const { userid } = useMyContext();
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const safeParse = (v: any) => {
-    if (!v) return null;
-    if (typeof v === "string") {
-      try { return JSON.parse(v); } catch (e) { console.warn("Failed to parse plan string:", e); return null; }
-    }
-    return v;
-  };
-
-  const handleGenerate = async () => {
-    setLoading(true);
-
-    try {
-      const res = await fetch('http://localhost:5000/api/trip', {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userid: userid ?? 1, city, startDate, endDate }), // use real userid when available
-        credentials: "include",
-      });
-
-      const data = await res.json();
-      setLoading(false);
-
-      if (!res.ok) {
-        setError(data?.message || "Server error");
-        return;
-      }
-
-      const planObj = safeParse(data.plan) ?? safeParse(data.planRaw);
-      
-      if (planObj) {
-        setPlan(planObj);
-        setPlancity(data.city || city);
-        setError("");
-      } else {
-        setError("No plan returned.");
-      }
-
-    } catch (err) {
-      console.error("Fetch error:", err);
-      setLoading(false);
-      setError("Something went wrong. Please try again.");
-    }
-  };
+  const [activeForm, setActiveForm] = useState<string | null>(null);
 
   return (
-    <div>
-      <input placeholder="City" value={city} onChange={e => setCity(e.target.value)} />
-      <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
-      <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
-      <button onClick={handleGenerate}>Generate Trip Plan</button>
+    <>
+      <p>Welcome to <b>Travel Planer</b>, please choose one of assistants you need to support !</p>
+      <ul>
+        <li>If you have already own idea, <button onClick={() => setActiveForm(activeForm === 'askform' ? null : 'askform')}>Click here</button></li>
+        <li>No idea? <button onClick={() => setActiveForm(activeForm === 'chatform' ? null : 'chatform')}>Chat with me</button></li>
+      </ul>
+      {activeForm === 'askform' && (
+        <TripPLaner />
+      )}
 
-      {loading && <LoadingSpinner />}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {activeForm === 'chatform' && (
+        <Chat />
+      )}
 
-      {plan && !loading && <TripPlan plan={plan} city={plancity} />}
-    </div>
+    </>
   );
 }

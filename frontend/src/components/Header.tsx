@@ -31,7 +31,7 @@ export default function Header() {
       {username ? (
         <>
           <NavLink className={({ isActive }) => isActive ? "navlink active" : "navlink"} to="/trips">Your trips</NavLink>
-          <p className="welcome">Welcome, {username}</p>
+          <NavLink className={({ isActive }) => isActive ? "navlink active" : "navlink"} to="/profile"><p className="welcome">Welcome, {username}</p></NavLink>
           <button onClick={logout} className="login-btn">Logout</button>
         </>
       ) : (

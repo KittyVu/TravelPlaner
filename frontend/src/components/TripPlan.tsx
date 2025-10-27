@@ -1,3 +1,4 @@
+
 export default function TripPlan({ plan, city }) {
   // ✅ Safely extract itinerary from any structure the LLM returns
   const itinerary: any[] =
