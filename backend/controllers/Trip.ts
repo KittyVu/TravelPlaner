@@ -107,3 +107,32 @@ export const tripDetail = async (req: Request, res: Response) => {
   });
 };
 
+export const chatPlan = async (req: Request, res: Response) => {
+  try {
+    const { message } = req.body;
+
+    const prompt = `
+You are a helpful travel assistant.
+Answer the user's question conversationally.
+Do NOT return JSON — respond in plain text only.
+
+User question:
+${message}
+`;
+
+    const response = await ollama.chat({
+      model: "llama3",
+      messages: [{ role: "user", content: prompt }],
+    });
+
+    return res.json({
+      reply: response.message.content // ✅ plain text reply
+    });
+
+  } catch (error) {
+    console.error("Chat plan generation failed:", error);
+    res.status(500).json({ error: "Failed to generate chat plan" });
+  }
+};
+
+

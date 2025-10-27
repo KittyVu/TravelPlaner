@@ -38,7 +38,7 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
         maxAge: 2 * 60 * 60 * 1000,
         httpOnly: true,
         secure: false,   
-        sameSite: "none" 
+        sameSite: "lax" 
       })
       .status(200)
       .json({ success: true, user: { id: user.id, username: user.username } });
@@ -53,7 +53,7 @@ export const logout = (req: Request, res: Response) => {
   res.clearCookie("jwt", {
     httpOnly: true,
     secure: false,
-    sameSite: "none",
+    sameSite: "lax",
   });
   return res.status(200).json({ msg: "Logged out successfully" });
 };
