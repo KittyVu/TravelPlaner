@@ -2,7 +2,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useMyContext } from "../context/AppContext";
 
 export default function Header() {
-  const { username, setUsername } = useMyContext();
+  const { username, setUsername, setUserid, setIsLoggedIn } = useMyContext();
   const navigate = useNavigate();
 
   // logout using cookie
@@ -12,6 +12,8 @@ export default function Header() {
       credentials: "include",
     });
     setUsername("");
+    setUserid(null);
+    setIsLoggedIn(false);
     navigate("/login");
   }
   return (
@@ -30,8 +32,8 @@ export default function Header() {
 
       {username ? (
         <>
-          <NavLink className={({ isActive }) => isActive ? "navlink active" : "navlink"} to="/trips">Your trips</NavLink>
-          <NavLink className={({ isActive }) => isActive ? "navlink active" : "navlink"} to="/profile"><p className="welcome">Welcome, {username}</p></NavLink>
+          <NavLink className={({ isActive }) => isActive ? "navlink active" : "navlink"} to="/trips">Your search</NavLink>
+          <NavLink className="header-name" to="/profile"><p className="welcome">Welcome, {username}</p></NavLink>
           <button onClick={logout} className="login-btn">Logout</button>
         </>
       ) : (

@@ -22,7 +22,7 @@ header {
   gap: 1em;
 }
 .welcome {
-  color: blue;
+  color: rgb(4, 180, 4);
 }
 .navlink {
   text-decoration: none;  
@@ -32,6 +32,11 @@ header {
 .navlink.active {
   font-weight: bold;     
   color: blue;
+}
+
+.header-name {
+  text-decoration: none;  
+  color: black;
 }
 
 /* books page*/
@@ -134,4 +139,31 @@ header {
   33% { content: '..'; }
   66% { content: '...'; }
   100% { content: ''; }
+}
+
+/* Profile page */
+.profile {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2em;
+  margin: 1em;  
+}
+
+footer {
+  text-align: center;
+  margin: 2em auto;
+  padding: 1em;
+  font-size: small;
+  background-color: rgb(134, 127, 127);
+  color: white;
+  height: 3em;
+}
+
+/* Home - AI Planer */
+.ask-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  margin: 2em auto;
+  width: 50%;
 }

@@ -4,11 +4,10 @@ import { useEffect } from "react";
 const AppContext = createContext(null);
 
 export function AppContextProvider({ children }) {
-    // users
     const [username, setUsername] = useState("");
     const [userid, setUserid] = useState(null);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    // check if user is authenticated   
     useEffect(() => {
         (async () => {
             try {
@@ -19,6 +18,7 @@ export function AppContextProvider({ children }) {
                 if (data.success) {
                     setUsername(data.user.username);
                     setUserid(data.user.id);
+                    setIsLoggedIn(true);
                 }
             } catch (err) {
                 console.error("Auth check failed", err);
@@ -27,7 +27,7 @@ export function AppContextProvider({ children }) {
     }, []);
 
     return (
-        <AppContext.Provider value={{ username, setUsername, userid, setUserid }}>
+        <AppContext.Provider value={{ username, setUsername, userid, setUserid, isLoggedIn, setIsLoggedIn }}>
             {children}
         </AppContext.Provider>
     );

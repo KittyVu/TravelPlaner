@@ -5,7 +5,7 @@ import { useMyContext } from "../context/AppContext";
 
 export default function Login() {
   const [user, setUser] = useState({ username: "", password: "" });
-  const { setUsername } = useMyContext();
+  const { setUsername, setUserid, setIsLoggedIn } = useMyContext();
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -33,6 +33,8 @@ export default function Login() {
 
       setError("");
       setUsername(data.user.username);  
+      setUserid(data.user.id);
+      setIsLoggedIn(true);
       alert(data.msg || "User login successfully")
       navigate("/");
 

@@ -23,12 +23,17 @@ export default function TripPLaner() {
 
   const handleGenerate = async () => {
     setLoading(true);
+    if (!city || !startDate || !endDate) {
+      setError("Please fill in all fields.");
+      setLoading(false);
+      return;
+    }
 
     try {
       const res = await fetch('http://localhost:5000/api/trip', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userid: userid ?? 1, city, startDate, endDate }), 
+        body: JSON.stringify({ userid: userid , city, startDate, endDate }), 
         credentials: "include",
       });
 
@@ -69,9 +74,9 @@ export default function TripPLaner() {
   return (
     <div className='ask-form'>
       <h2>Plan your trip</h2>
-      <input placeholder="City" value={city} onChange={e => setCity(e.target.value)} />
-      <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
-      <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
+      <input placeholder="City" value={city} onChange={e => setCity(e.target.value)} required />
+      <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} required />
+      <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} required />
       <button onClick={handleGenerate}>Generate Trip Plan</button>
       <button onClick={newSearch}>New Search</button>
 
