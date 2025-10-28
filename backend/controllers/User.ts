@@ -1,7 +1,8 @@
 import type { Request, Response, NextFunction } from "express";
-import bcrypt from "bcrypt";
+import bcrypt, { hash } from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User";
+import UserReferences from "../models/UserReferences";
 
 const secretKey = process.env.SECRET_KEY || "secret";
 
@@ -14,6 +15,7 @@ export const registerUser = async (req: Request, res: Response, next: NextFuncti
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await User.create({ username, email, password: hashedPassword });
+    await UserReferences.create({ userid: newUser.id });
 
     res.status(201).json({ success: true, msg: "User registered successfully", user: newUser });
   } catch (error) {
@@ -37,8 +39,8 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
       .cookie("jwt", token, {
         maxAge: 2 * 60 * 60 * 1000,
         httpOnly: true,
-        secure: false,   
-        sameSite: "lax" 
+        secure: false,
+        sameSite: "lax"
       })
       .status(200)
       .json({ success: true, user: { id: user.id, username: user.username } });
@@ -70,3 +72,43 @@ export const infoUser = (req: Request, res: Response) => {
     res.status(401).json({ msg: "Invalid token" });
   }
 };
+
+// get data Profile (POST)
+export const profileUser = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { id } = req.body;
+    const profile = await User.findOne({
+      where: { id: id },
+      include: [UserReferences]
+    });
+
+    res.json({ success: true, msg: "Profile updated successfully", profile });
+  } catch (error) {
+    next(error);
+  }
+}
+
+// update data Profile (PUT)
+export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { id, password, email, favoriteFoods, travelStyle, budget } = req.body;
+    const updateData: any = { email };
+    if (password) {
+      updateData.password = await bcrypt.hash(password, 10);
+    }
+    await User.update(updateData, { where: { id } });
+    await UserReferences.update(
+      { travelStyle, budget, favoriteFoods },
+      { where: { userid: id } }
+    );
+
+    const updatedProfile = await User.findOne({
+      where: { id },
+      include: [UserReferences]
+    });
+
+    res.json({ success: true, msg: "Profile updated successfully", profile: updatedProfile });
+  } catch (error) {
+    next(error);
+  }
+}

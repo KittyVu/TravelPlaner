@@ -10,7 +10,7 @@ const UserReferences = dbCon.define("UserReferences", {
     userid: { type: DataTypes.INTEGER, allowNull: false },
     travelStyle: { type: DataTypes.STRING, allowNull: true },
     budget: { type: DataTypes.STRING, allowNull: true },
-    favoriteFoods: { type: DataTypes.ARRAY(DataTypes.STRING), defaultValue: [] }, // or DataTypes.JSON for cross-DB
+    favoriteFoods: { type: DataTypes.STRING, allowNull: true},
     lastCityVisited: { type: DataTypes.STRING, allowNull: true },
     lastTripPeriod: { type: DataTypes.STRING, allowNull: true }
 }, {

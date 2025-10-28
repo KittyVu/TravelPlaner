@@ -19,7 +19,7 @@ export const tripPlan = async (req: Request, res: Response) => {
     const context = `
 Travel style: ${userPref?.travelStyle || "general tourism"}
 Budget: ${userPref?.budget || "medium"}
-Favorite foods: ${userPref?.favoriteFoods?.join(", ") || "local foods"}
+Favorite foods: ${userPref?.favoriteFoods || "local foods"}
 Last trip: ${lastTrip?.city || "none"} (${lastTrip?.startDate || ""} - ${lastTrip?.endDate || ""})
 `;
 
@@ -60,21 +60,28 @@ ${context}
 
     // ✅ Always valid JSON here
     const planJson = JSON.parse(response.message.content);
+    let tripId: number | null = null;
 
-    // ✅ Save trip first
-    const trip = await Trips.create({ userid, city, startDate, endDate });
+    if (userid) {
+      // ✅ Save trip first
+      const trip = await Trips.create({ userid, city, startDate, endDate });
+      tripId = trip.id;
+      // ✅ Save plan JSON into Postgres
+      await TripPlans.create({
+        tripid: tripId,
+        plan: planJson,
+      });
 
-    // ✅ Save plan JSON into Postgres
-    await TripPlans.create({
-      tripid: trip.id,
-      plan: planJson,
-    });
+    }
 
-    return res.json({
-      tripid: trip.id,
-      plan: planJson,
-      city: city
-    });
+    // Send proper JSON response
+    const responseData: any = { plan: planJson, city: city };
+    if (tripId) {
+      responseData.tripid = tripId;
+    }
+
+    return res.json(responseData);
+
 
   } catch (error) {
     console.error("Generate trip plan failed:", error);
@@ -83,10 +90,17 @@ ${context}
 };
 
 export const tripList = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const trips = await Trips.findAll({ where: { userid: id } });
-  res.json(trips);
+  try {
+    const userId = req.user?.id;   // <- from the middleware
+    if (!userId) return res.status(401).json({ success: false, msg: "Unauthorized" });
+
+    const trips = await Trips.findAll({ where: { userid: userId } });
+    res.json({ success: true, trips });
+  } catch (err) {
+    res.status(500).json({ success: false, msg: "Server error" });
+  }
 };
+
 
 export const tripDetail = async (req: Request, res: Response) => {
   const { id } = req.params;
