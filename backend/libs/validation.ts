@@ -1,27 +1,29 @@
+import type { Request, Response, NextFunction } from "express";
 import { check, validationResult } from "express-validator";
 
 const validateUser = [
   check('username')
     .notEmpty().withMessage("Username is required")
-    .isLength({ min: 4, max: 50 }).withMessage("Username has invalid length")
-    .matches(/[a-zA-Z\s]+/).withMessage('Invalid characters used in username'),
+    .isLength({ min: 4, max: 50 }).withMessage("Username must be between 4 and 50 characters")
+    .matches(/^[a-zA-Z\s]+$/).withMessage('Username contains invalid characters'),
 
   check('password')
     .notEmpty().withMessage('Password is required')
-    .isLength({ min: 5 }).withMessage("Password is too short")
-    .matches(/[a-z]/).withMessage('Password has at least one lowercase letter required')
-    .matches(/[A-Z]/).withMessage('Password has at least one uppercase letter required')
-    .matches(/[0-9]/).withMessage('Password has at least one digit required'),
+    .isLength({ min: 5 }).withMessage("Password must be at least 5 characters")
+    .matches(/[a-z]/).withMessage('Password must contain at least one lowercase letter')
+    .matches(/[A-Z]/).withMessage('Password must contain at least one uppercase letter')
+    .matches(/[0-9]/).withMessage('Password must contain at least one number'),
 
   check('email')
-    .notEmpty().withMessage("Username is required")
-    .isLength({ min: 4, max: 50 }).withMessage("Email has invalid length")
-    .matches(/[a-zA-Z\s]+/).withMessage('Invalid characters used in email'),
-    
-  (req, res, next) => {
+    .notEmpty().withMessage("Email is required")
+    .isEmail().withMessage("Invalid email format")
+    .isLength({ max: 50 }).withMessage("Email must not exceed 50 characters"),
+
+  // Middleware to check validation results
+  (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      // Just return first error as a simple message
+      // Return first validation error
       return res.status(422).json({ success: false, message: errors.array()[0].msg });
     }
     next();

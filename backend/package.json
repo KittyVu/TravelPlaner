@@ -1,13 +1,15 @@
 {
   "name": "backend",
   "module": "index.ts",
-  "type": "module",
+  "type": "commonjs",
   "private": true,
   "devDependencies": {
     "@types/bun": "latest",
     "@types/cookie-parser": "^1.4.9",
     "@types/cors": "^2.8.19",
-    "@types/jsonwebtoken": "^9.0.10"
+    "@types/jsonwebtoken": "^9.0.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
   },
   "peerDependencies": {
     "typescript": "^5"
@@ -25,5 +27,10 @@
     "pg": "^8.16.3",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.7"
+  },
+  "scripts": {
+    "dev": "bun --watch index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
   }
 }

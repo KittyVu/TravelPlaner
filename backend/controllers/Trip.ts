@@ -3,17 +3,18 @@ import ollama from "ollama";
 import Trips from '../models/Trips';
 import TripPlans from '../models/TripPlans';
 import UserReference from '../models/UserReferences';
+import type { UserPreferenceType, TripType, TripPlanType } from '../libs/types';
 
 export const tripPlan = async (req: Request, res: Response) => {
   try {
     const { userid, city, startDate, endDate } = req.body;
 
     // Get user references
-    const userPref = await UserReference.findOne({ where: { userid } });
+    const userPref = await UserReference.findOne({ where: { userid } }) as UserPreferenceType | null;
     const lastTrip = await Trips.findOne({
       where: { userid },
       order: [["createdAt", "DESC"]],
-    });
+    }) as TripType | null;
 
     // Create context for LLM
     const context = `
@@ -64,7 +65,7 @@ ${context}
 
     if (userid) {
       // ✅ Save trip first
-      const trip = await Trips.create({ userid, city, startDate, endDate });
+      const trip = await Trips.create({ userid, city, startDate, endDate }) as TripType | any;
       tripId = trip.id;
       // ✅ Save plan JSON into Postgres
       await TripPlans.create({
@@ -107,7 +108,7 @@ export const tripDetail = async (req: Request, res: Response) => {
   const tripPlan = await TripPlans.findOne({
     where: { tripid: id },
     include: [Trips]
-  });
+  }) as (TripPlanType & { Trip?: TripType }) | null;
 
   if (!tripPlan) return res.status(404).json({ error: "Trip not found" });
 

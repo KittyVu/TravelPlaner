@@ -29,6 +29,12 @@ export type TripPlanType = {
     id: number;
     tripid: number;
     plan: any; // JSON object
+    planRaw: string | null;
     createdAt: Date;
     updatedAt: Date;
+};
+
+export type ErrorType = {
+    status: number;
+    message: string;
 };

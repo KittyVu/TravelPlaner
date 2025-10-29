@@ -3,6 +3,7 @@ import bcrypt, { hash } from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User";
 import UserReferences from "../models/UserReferences";
+import type { UserType } from "../libs/types";
 
 const secretKey = process.env.SECRET_KEY || "secret";
 
@@ -14,8 +15,14 @@ export const registerUser = async (req: Request, res: Response, next: NextFuncti
     if (existingUser) return res.status(400).json({ msg: "Username already exists" });
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = await User.create({ username, email, password: hashedPassword });
+    const newUser = await User.create({
+      username,
+      email,
+      password: hashedPassword
+    }) as unknown as UserType;
+
     await UserReferences.create({ userid: newUser.id });
+
 
     res.status(201).json({ success: true, msg: "User registered successfully", user: newUser });
   } catch (error) {
@@ -27,7 +34,7 @@ export const registerUser = async (req: Request, res: Response, next: NextFuncti
 export const loginUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { username, password } = req.body;
-    const user = await User.findOne({ where: { username } });
+    const user = await User.findOne({ where: { username } }) as UserType | null;;
     if (!user) return res.status(401).json({ msg: "Invalid username or password" });
 
     const passwordMatch = await bcrypt.compare(password, user.password);

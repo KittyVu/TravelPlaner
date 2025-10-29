@@ -1,5 +1,5 @@
-export function createError(status, message) {
-    const err = new Error(message);
-    err.status = status;
-    return err;
+import type { ErrorType } from "./types";
+
+export function createError(status: number, message: string): ErrorType {
+    return { status, message };
 }
