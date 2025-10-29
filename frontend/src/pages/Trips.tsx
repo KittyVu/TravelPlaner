@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom';
 import { formatDate } from '../libs/datefunction';
+import type { TripType } from '../libs/types';
 
 export default function Trips() {
-  const [trips, setTrips] = useState([]);
+  const [trips, setTrips] = useState<TripType []>([]);
 
   useEffect(() => {
   const fetchTrips = async () => {

@@ -1,5 +1,6 @@
+import type { TripPlanProps } from "../libs/types";
 
-export default function TripPlan({ plan, city }) {
+export default function TripPlan({ plan, city }: TripPlanProps) {
   // ✅ Safely extract itinerary from any structure the LLM returns
   const itinerary: any[] =
     plan?.data ||

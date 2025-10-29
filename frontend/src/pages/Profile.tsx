@@ -35,7 +35,7 @@ export default function Profile() {
       });
   }, [userid]);
 
-  const profileUpdate = (e) => {
+  const profileUpdate = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     fetch("http://localhost:5000/api/user/profile", {  
       method: "PUT",

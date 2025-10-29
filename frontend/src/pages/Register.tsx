@@ -6,11 +6,11 @@ export default function Register() {
   const [error, setError] = useState(""); 
   const navigate = useNavigate();
 
-  function changeHandler(event) {
+  function changeHandler (event: React.ChangeEvent<HTMLInputElement>) {
     setUser({ ...user, [event.target.name]: event.target.value });
   }
 
-  async function submitHandler(event) {
+  async function submitHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     if (user.password !== user.cpassword) {

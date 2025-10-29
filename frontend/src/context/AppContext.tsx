@@ -1,13 +1,14 @@
 import { useState, useContext, createContext } from "react";
 import { useEffect } from "react";
+import type { AppContextType } from "../libs/types";
 
-const AppContext = createContext(null);
+const AppContext = createContext<AppContextType | undefined>(undefined);
 
-export function AppContextProvider({ children }) {
-    const [username, setUsername] = useState("");
-    const [userid, setUserid] = useState(null);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+export function AppContextProvider({ children }: { children: React.ReactNode }) {
+    const [username, setUsername] = useState<string>("");
+    const [userid, setUserid] = useState<number | null>(null);
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+    
     useEffect(() => {
         (async () => {
             try {
@@ -34,5 +35,7 @@ export function AppContextProvider({ children }) {
 }
 
 export function useMyContext() {
-    return useContext(AppContext);
+    const context = useContext(AppContext);
+    if (!context) throw new Error("useMyContext must be used within AppContextProvider");
+    return context;
 }

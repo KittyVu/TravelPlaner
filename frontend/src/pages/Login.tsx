@@ -1,4 +1,4 @@
-import { useState } from "react"
+import React, { useState } from "react"
 import { NavLink } from "react-router-dom"
 import { useNavigate } from "react-router-dom";
 import { useMyContext } from "../context/AppContext";
@@ -9,11 +9,11 @@ export default function Login() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  function changeHandler(event) {
+  function changeHandler(event: React.ChangeEvent<HTMLInputElement>) {
     setUser({ ...user, [event.target.name]: event.target.value });
   }
 
-  async function submitHandler(event) {
+  async function submitHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     try {
       const response = await fetch("http://localhost:5000/api/user/login", {
@@ -48,6 +48,7 @@ export default function Login() {
     <div className="login-page">
       <h1>Login</h1>
       <form onSubmit={submitHandler} className="login-form">
+        {error && <p className="notification">{error}</p>}
         <input type="text" name="username" id="username" value={user.username} onChange={changeHandler} placeholder="Username" />
         <input type="password" name="password" id="password" value={user.password} onChange={changeHandler} placeholder="Password" />
         <button className="login-btn">Login</button>
