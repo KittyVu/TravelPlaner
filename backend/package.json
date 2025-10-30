@@ -4,6 +4,7 @@
   "type": "commonjs",
   "private": true,
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
     "@types/bun": "latest",
     "@types/cookie-parser": "^1.4.9",
     "@types/cors": "^2.8.19",
