@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { API_URL } from "../libs/types";
 
 export default function TripDetail() {
   const { id } = useParams();
@@ -11,7 +12,7 @@ export default function TripDetail() {
   useEffect(() => {
     const fetchTripDetail = async () => {
       try {
-        const res = await fetch(`https://travelplaner.onrender.com/api/trip/detail/${id}`, {
+        const res = await fetch(`${API_URL}/api/trip/detail/${id}`, {
           method: "GET",
           credentials: "include",
         });

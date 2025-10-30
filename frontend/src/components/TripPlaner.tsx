@@ -2,6 +2,7 @@ import { useState } from 'react';
 import TripPlan from '../components/TripPlan';
 import { useMyContext } from "../context/AppContext";
 import LoadingSpinner from '../components/Loading';
+import { API_URL } from "../libs/types";
 
 export default function TripPLaner() {
   const [city, setCity] = useState('');
@@ -30,7 +31,7 @@ export default function TripPLaner() {
     }
 
     try {
-      const res = await fetch('https://travelplaner.onrender.com/api/trip', {
+      const res = await fetch(`${API_URL}/api/trip`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userid: userid , city, startDate, endDate }), 

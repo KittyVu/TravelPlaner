@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { API_URL } from "../libs/types";
 
 export default function Chat() {
     const [messages, setMessages] = useState<Array<{ sender: string, text: string }>>([]);
@@ -15,7 +16,7 @@ export default function Chat() {
         setIsTyping(true); 
 
         try {
-            const response = await fetch('https://travelplaner.onrender.com/api/trip/chat', {
+            const response = await fetch(`${API_URL}/api/trip/chat`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: input }),

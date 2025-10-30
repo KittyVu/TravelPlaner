@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom';
 import { formatDate } from '../libs/datefunction';
 import type { TripType } from '../libs/types';
+import { API_URL } from '../libs/types';
 
 export default function Trips() {
   const [trips, setTrips] = useState<TripType []>([]);
@@ -9,7 +10,7 @@ export default function Trips() {
   useEffect(() => {
   const fetchTrips = async () => {
     try {
-      const res = await fetch(`https://travelplaner.onrender.com/api/trip`, {
+      const res = await fetch(`${API_URL}/api/trip`, {
         method: "GET",
         credentials: "include",
         headers: {

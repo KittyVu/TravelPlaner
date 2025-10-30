@@ -1,5 +1,6 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useMyContext } from "../context/AppContext";
+import { API_URL } from "../libs/types";
 
 export default function Header() {
   const { username, setUsername, setUserid, setIsLoggedIn } = useMyContext();
@@ -7,7 +8,7 @@ export default function Header() {
 
   // logout using cookie
   const logout = async () => {
-    await fetch("https://travelplaner.onrender.com/api/user/logout", {
+    await fetch(`${API_URL}/api/user/logout`, {
       method: "POST",
       credentials: "include",
     });

@@ -2,12 +2,14 @@ import React, { useState } from "react"
 import { NavLink } from "react-router-dom"
 import { useNavigate } from "react-router-dom";
 import { useMyContext } from "../context/AppContext";
+import { API_URL } from "../libs/types";
 
 export default function Login() {
   const [user, setUser] = useState({ username: "", password: "" });
   const { setUsername, setUserid, setIsLoggedIn } = useMyContext();
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  //const API_URL = import.meta.env.VITE_API_URL;
 
   function changeHandler(event: React.ChangeEvent<HTMLInputElement>) {
     setUser({ ...user, [event.target.name]: event.target.value });
@@ -16,7 +18,7 @@ export default function Login() {
   async function submitHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     try {
-      const response = await fetch("https://travelplaner.onrender.com/api/user/login", {
+      const response = await fetch(`${API_URL}/api/user/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username: user.username, password: user.password }),

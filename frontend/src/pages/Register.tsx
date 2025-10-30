@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { API_URL } from "../libs/types";
 
 export default function Register() {
   const [user, setUser] = useState({ username: "", email: "", password: "", cpassword: "" });
@@ -19,7 +20,7 @@ export default function Register() {
     }
 
     try {
-      const response = await fetch("https://travelplaner.onrender.com/api/user/register", {
+      const response = await fetch(`${API_URL}/api/user/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username: user.username, email:user.email, password: user.password }),

@@ -1,6 +1,7 @@
 import { useState, useContext, createContext } from "react";
 import { useEffect } from "react";
 import type { AppContextType } from "../libs/types";
+import { API_URL } from "../libs/types";
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
@@ -12,7 +13,7 @@ export function AppContextProvider({ children }: { children: React.ReactNode }) 
     useEffect(() => {
         (async () => {
             try {
-                const res = await fetch("https://travelplaner.onrender.com/api/user/info", {
+                const res = await fetch(`${API_URL}/api/user/info`, {
                     credentials: "include",
                 });
                 const data = await res.json(); console.log("Auth check data:", data);

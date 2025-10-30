@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useMyContext } from "../context/AppContext";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../libs/types";
 
 export default function Profile() {
   const { userid } = useMyContext();
@@ -13,7 +14,7 @@ export default function Profile() {
   const navigate = useNavigate();
 
   useEffect(() => {
-     fetch("https://travelplaner.onrender.com/api/user/profile", {  
+     fetch(`${API_URL}/api/user/profile`, {  
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -37,7 +38,7 @@ export default function Profile() {
 
   const profileUpdate = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    fetch("http://localhost:5000/api/user/profile", {  
+    fetch(`${API_URL}/api/user/profile`, {  
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
