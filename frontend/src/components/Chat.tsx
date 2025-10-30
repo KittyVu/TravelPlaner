@@ -15,7 +15,7 @@ export default function Chat() {
         setIsTyping(true); 
 
         try {
-            const response = await fetch('http://localhost:5000/api/trip/chat', {
+            const response = await fetch('https://travelplaner.onrender.com/api/trip/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: input }),

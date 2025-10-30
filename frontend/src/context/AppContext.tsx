@@ -12,7 +12,7 @@ export function AppContextProvider({ children }: { children: React.ReactNode }) 
     useEffect(() => {
         (async () => {
             try {
-                const res = await fetch("http://localhost:5000/api/user/info", {
+                const res = await fetch("https://travelplaner.onrender.com/api/user/info", {
                     credentials: "include",
                 });
                 const data = await res.json(); console.log("Auth check data:", data);

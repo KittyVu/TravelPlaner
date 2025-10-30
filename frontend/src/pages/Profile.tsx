@@ -13,7 +13,7 @@ export default function Profile() {
   const navigate = useNavigate();
 
   useEffect(() => {
-     fetch("http://localhost:5000/api/user/profile", {  
+     fetch("https://travelplaner.onrender.com/api/user/profile", {  
       method: "POST",
       headers: {
         "Content-Type": "application/json",

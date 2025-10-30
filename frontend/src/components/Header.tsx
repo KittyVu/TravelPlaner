@@ -7,7 +7,7 @@ export default function Header() {
 
   // logout using cookie
   const logout = async () => {
-    await fetch("http://localhost:5000/api/user/logout", {
+    await fetch("https://travelplaner.onrender.com/api/user/logout", {
       method: "POST",
       credentials: "include",
     });

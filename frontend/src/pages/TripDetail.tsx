@@ -11,7 +11,7 @@ export default function TripDetail() {
   useEffect(() => {
     const fetchTripDetail = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/trip/detail/${id}`, {
+        const res = await fetch(`https://travelplaner.onrender.com/api/trip/detail/${id}`, {
           method: "GET",
           credentials: "include",
         });
